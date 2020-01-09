@@ -20,16 +20,11 @@ get '/login' do
   erb :login
 end
 
-post '/signup' do
-  user = User.find_by(email: params[:email])
+post '/login' do
+  user = User.new(email: params[:email])
   given_password = params[:password]
     if user.password == given_password
-      session[:user_email] = user.id
-      session[:user_password] = user.password
-      session[:user_firstname] = user.first
-      session[:user_lastname] = user.last
-      session[:user_biography] = user.bio
-      session[:user_birt] = user.birthday
+      session[:user_id] = user.id
       redirect '/profile'
   else
     flash[:error] = 'Correct email, but wrong password. Did you mean: #{user.password}? \Only use this password if it is your account.'
@@ -37,7 +32,7 @@ post '/signup' do
   end
 end
 
-post '/login' do
+post '/signup' do
     @user = User.new(params[:user])
     if @user.valid?
       @user.save
