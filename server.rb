@@ -1,14 +1,11 @@
 require 'sinatra'
 require 'sinatra/activerecord'
-# require 'rake'
+require 'rake'
 require 'pg'
 require './models'
 
 set :database, {
-  adapter: 'postgresql',
-  database: 'users-blog',
-  username: 'postgres',
-  password: ENV['POSTGRES_PW']}
+  url: ENV['DATABASE_URL']}
   enable :sessions
 
 set :port, 1357
