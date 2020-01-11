@@ -1,5 +1,6 @@
 require 'sinatra'
 require 'sinatra/activerecord'
+require 'sinatra/flash'
 require 'rake'
 require 'pg'
 require './models'
@@ -14,14 +15,14 @@ set :port, 1357
 
 get '/' do
   erb :home
-end
+end 
 
 get '/login' do
   erb :login
 end
 
 post '/login' do
-  user = User.new(email: params[:email])
+  user = User.new(email: params[:email, :name, :password ,:birth])
   given_password = params[:password]
     if user.password == given_password
       session[:user_id] = user.id
@@ -37,9 +38,6 @@ post '/signup' do
     if @user.valid?
       @user.save
       redirect '/profile'
-    else
-      flash[:error] = @users.errors.full_messages
-      redirect '/signup'
     end
 end
 
@@ -51,10 +49,6 @@ get '/signout' do
   erb :signout
   session.clear
   redirect '/'
-end
-
-get '/anime' do
-  erb :anime
 end
 
 get '/signup' do
@@ -80,5 +74,17 @@ post '/' do
     else
         flash[:errors] = @post.errors.full_messages
         redirect '/'
+    end
+end
+
+get '/delete' do
+    erb :delete
+end
+
+post '/delete' do
+    user = User.find_by(email: session[:email])
+    if session[:email] == params[:email]
+        user.destroy
+        redirect '/signout'
     end
 end

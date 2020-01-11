@@ -1,11 +1,11 @@
-<% flash[:error] %>
-  <%= flash[:error] %>
-  <% end %>
+<% if flash[:error] %>
+    <%= flash[:error] %>
+<% end %>
 
-<h1>Log in to AnimeMeet</h1>
-<form action="/login" method="POST">
-  <input type="text" name="user[name]" placeholder="username"><br>
-  <input type="text" name="user[email]" placeholder="Email"><br>
-  <input type="password" name="user[password]" placeholder="user-password"><br>
-  <input type="submit" value="Sign up">
+<h1>Login</h1>
+
+<form action='/login' method='post'>
+    <input name= "email" type= "email" placeholder= "email"><br>
+    <input name= "password" type= "password" placeholder= "password"><br>
+    <input type= "submit" value= "submit">
 </form>
